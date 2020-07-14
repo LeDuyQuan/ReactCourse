@@ -1,0 +1,31 @@
+1. First React Code
+- Import React và ReactDOM library: React là về component, ReactDOM là về render component to DOM
+
+HTML
+<div id="app"></div>
+
+JS
+function Person(props){
+  return (
+    <div className="person">   //class là của JS nên JSX sử dụng className keyword
+      <h1>{props.name}</h1>
+      <p>Your age: {props.age}</p>
+    </div>
+  )
+}
+
+var app = (
+  <div>
+    <Person name="Quan" age="28"/>
+    <Person name="Vi" age="22"/>
+  </div>
+)
+
+ReactDOM.render(app, document.querySelector('#app'))
+
+
+2. Tại sao chọn React
+- Vì nó chia ra từng component nên giúp thành phần UI dễ quản lý hơn
+- Nếu mà chúng ta có 1 hệ thống web phức tạp, việc thêm xóa các thành phần UI sẽ trở nên phức tạp. Do phải thao tác với DOM thủ công
+- Nó sẽ giúp chúng ta tập trung vào business logic thay vì phải quản lý UI
+- Nó được duy trì bởi 1 tổ chức lớn FB và có cộng đồng lớn hỗ trợ
