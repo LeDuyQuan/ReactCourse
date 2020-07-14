@@ -29,3 +29,6 @@ ReactDOM.render(app, document.querySelector('#app'))
 - Nếu mà chúng ta có 1 hệ thống web phức tạp, việc thêm xóa các thành phần UI sẽ trở nên phức tạp. Do phải thao tác với DOM thủ công
 - Nó sẽ giúp chúng ta tập trung vào business logic thay vì phải quản lý UI
 - Nó được duy trì bởi 1 tổ chức lớn FB và có cộng đồng lớn hỗ trợ
+
+
+3. Single page app: là chúng ta sẽ get 1 HTML file từ server. Toàn bộ trang gồm các components sẽ render và đc xử lý bởi JS
