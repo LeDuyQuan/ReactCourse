@@ -1,0 +1,28 @@
+1. Import & Export
+
+Ex1
+const person = {
+  name: 'Max'
+}
+export default person
+
+-> import
+import person from './person.js'
+import prs from './person.js'
+
+
+Ex2
+export const clean = () => {}
+export const baseData = 10
+
+-> import
+import {clean} from './utility'
+import {baseData} from './utility'
+or import {baseData as data} from './utility'
+
+Ex3
+export const clean = () => {}
+export const baseData = 10
+
+-> import
+import * from './utility'
