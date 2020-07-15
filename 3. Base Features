@@ -1,0 +1,77 @@
+1. JSX: có 2 cách tạo component
+a. Tạo bằng class
+import React, {Component} from 'react'
+
+class App extends Component {
+  render() {
+    return (
+      <div className="App">      //tất cả này ko phải là HTML mà là JSX code
+        <h1>My fisrt App</h1>
+      </div>
+    )
+  }
+}
+
+sau khi compile:
+return React.createElement('div', {className: "App"}, React.createElement('h1', null, 'My first App'))
+
+className: do nếu sử dụng class trong JSX, JS có thể hiểu lầm với từ khóa class (class của object)
+
+
+b. Functional component
+import React from 'react'
+
+const person = (props) => {
+  return <p>I'm a person</p>
+}
+
+export default person;
+
+- Vì trong JSX mọi element bắt đầu từ chữ thường, nên ta cần import Person với chữ P lớn để JSX xác định đc đây là custom component
+
+
+*** Khi gọi
+<Person name="Quan" age ="12">Hello</Person>
++ props sẽ bao gồm name và age : Quan và 12
++ props.children sẽ chứa anything giữa <Person> và </Person> : Hello
+
+
+- props: được truyền từ bên ngoài component
+- state: được quản lý trong 1 component but Functional component (nhưng Hook cho phép quản lý state trong Functional component)
+
+class App extends Component {
+  state = {
+    persons: [
+      {name: 'Max', age: 12}
+      {name: 'Quan', age: 22}
+    ],
+    other: ""
+  }
+  
+  onChange = () => {  // dùng arrow function nên this đc refer tới class
+    this.setState({   //setState của React sẽ update lại state mà ko mất đi state mặc định
+      persons: [
+      {name: 'Max', age: 12}
+      {name: 'Quan', age: 22}
+    ]
+    })
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <button onClick={onChange}>Change</button>         //onclick là của JS nhưng trong JSX là onClick
+        <Person name={this.state.persons[0].name} age={this.state.persons[0].age}/>
+        <Person name={this.state.persons[1].name} age={this.state.persons[1].age}/>
+      </div>
+    )
+  }
+}
+
+-> Có thể thay đôi state. Changes to state also trigger an UI update.
+
+
+2. React hook
+*** Kể từ React 16.8 chúng ta có thể quản lý state trong functional components (React Hooks)
+- App được viết lại như sau
+
