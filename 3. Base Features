@@ -71,13 +71,14 @@ class App extends Component {
 -> Có thể thay đôi state. Changes to state also trigger an UI update.
 
 
+
 2. React hook
 *** Kể từ React 16.8 chúng ta có thể quản lý state trong functional components (React Hooks). 
 Nó cho phép chúng ta sử dụng state và các tính năng khác của React mà không phải dùng đến Class.
 
 - App được viết lại như sau
 import React, { useState } from 'react';
-class app = props => {
+const app = props => {
   const [ statePerson, setStatePerson ] = useState({          //sẽ return về 1 array gồm 2 phần từ: state và function update state
     persons: [
       {name: 'Max', age: 12}
@@ -105,3 +106,27 @@ class app = props => {
 }
 
 setStatePerson nó replace lại toàn bộ state nên để tránh mất state chúng ta nên sử dụng multible useState cho các trạng thái khác nhau
+
+
+
+3. Stateful and stateless component
+- Stateful component là 1 component quản lý state. Chứa logic xử lý state thường để trong thư mục CONTANINER
+- Stateless component là component không quản lý bất kỳ internal state nào. Không có logic, chỉ nhận external data và cho ra output theo 1 structure
+
+
+4. Pass a method
+- Chúng ta có thể pass các method giữa nhưng component với nhau
+Ex: Đang ở class component
+onChange = (name) => {
+    setStatePerson({
+      persons: [
+        {name: name, age: 12}
+        {name: 'Quan', age: 22}
+    ]
+  })
+}
+Cách 1: <Person click={onChange.bind(this, 'Quan')} name={statePerson.persons[0].name}</Person>
+
+Cách 2: <Person click={() => onChange('Quan')} name={statePerson.persons[0].name}</Person> 
+- Cách 2 sẽ thực thi 1 anonymous function và trả về kết quả của onChange function đã thực thi (onChange() ko thực thi ngay lập tức).
+Đây là một cú pháp rất thuận tiện nhưng nó có thể không hiệu quả, React có thể re-render lại một số thứ nhất định
