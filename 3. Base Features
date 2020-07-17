@@ -129,4 +129,27 @@ Cách 1: <Person click={onChange.bind(this, 'Quan')} name={statePerson.persons[0
 
 Cách 2: <Person click={() => onChange('Quan')} name={statePerson.persons[0].name}</Person> 
 - Cách 2 sẽ thực thi 1 anonymous function và trả về kết quả của onChange function đã thực thi (onChange() ko thực thi ngay lập tức).
-Đây là một cú pháp rất thuận tiện nhưng nó có thể không hiệu quả, React có thể re-render lại một số thứ nhất định
+
+=> Cách 2 là một cú pháp rất thuận tiện nhưng nó có thể ảnh hưởng tới performance, React có thể re-render vô nghĩa.
+Khi sử dụng cách viết code này, props của component có sử dụng arrow function sẽ luôn được gán 1 function mới (do arrow function sinh ra) 
+mỗi khi mà component cha của nó re-render. Có props mới truyền vào, component con sẽ bị re-render.
+
+=> Nên sử dụng cách 1 thay vì. (or sử dụng useCallback, useMemo)
+
+
+5. Two way binding
+[PARENT] Sử dụng class
+nameChangeHandler = (event) => {
+  this.setState({name: event.target.value})
+}
+JSX:  <Person changed={this.nameChangeHandler} name={this.name}></Person>
+
+[COMPONENT]
+<input type="text" onChange={props.changed} value={props.name}>
+
+
+value={props.name} : điều này sẽ tạo ra two way binding khi data được hiển thị lên input ngay từ đầu(nếu ko có onChange đi kem sẽ lỗi vì gán value vào 1 giá trị không thay đổi được)
+
+
+
+
