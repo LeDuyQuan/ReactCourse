@@ -34,6 +34,9 @@ const style = {
   ':hover': {
     backgroundColor: 'lightgreen',
     color: 'black'
+  },
+  '@media (min-width: 500px)': {
+    width: '450px'
   }
 }
 if (isShow) {
@@ -44,3 +47,9 @@ if (isShow) {
       color: 'black'
     }
 }
+
+- Đối với query media hay sử dụng animation thì ta cần wrap lại với StyleRoot nữa
+import Radium, {StyleRoot} from 'radium';
+<StyleRoot>
+  <Compo style={style}/>
+</StyleRoot>
