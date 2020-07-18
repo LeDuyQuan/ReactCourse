@@ -1,0 +1,46 @@
+1. Styles Dynamically 
+const style = {
+  backgroundColor: 'green'
+}
+if (isShow) {
+    //do something
+    style.backgroundColor = 'red'
+}
+
+return(
+  <button style={style}></button>
+)
+
+
+2. Class Dynamically
+const classes = [];
+if (this.state.persons.length <= 2) {
+  classes.push('red');
+}
+if (this.state.persons.length <= 1) {
+  classes.push('bold');
+}
+
+<p className={classes.join(' ')}></p>
+
+
+3. Sử dụng pseudo code and query media for inline style css
+- Install RADIUM package
+import Radium from 'radium'
+export default Radium(App);
+
+const style = {
+  backgroundColor: 'green',
+  ':hover': {
+    backgroundColor: 'lightgreen',
+    color: 'black'
+  }
+}
+if (isShow) {
+    //do something
+    style.backgroundColor = 'red';
+    style[':hover'] = {
+      backgroundColor: 'lightred',
+      color: 'black'
+    }
+}
