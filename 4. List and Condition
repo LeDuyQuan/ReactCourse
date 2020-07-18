@@ -1,0 +1,48 @@
+1. Condition
+- Đối với Vuejs ta thường v-if để render HTML, nhưng với JSX ta sử dụng condition trong {}
+- Chỉ sử dụng được statement đơn giản (ternary expression) trong JSX code, ko thể mở block statement
+
+{ isShow ?
+  <div>
+    ...
+  </div> : null
+}
+
+- Nhưng nếu condition cực kỳ phức tạp thì ta có thể code trước phần return (để có thể sử dụng đc block statement)
+render() {
+  let person = null;
+  if (isShow) {
+    person = (
+      <div>
+      ...
+    </div>
+    )    
+  }
+}
+[JSX code] inject vào JSX {person}
+
+
+2. List
+{
+  this.state.person.map(x => {
+    return <Person name={x.name} />
+  })
+}
+
+- Lúc này chúng ta không truyền key vào nó sẽ báo warning: tìm hiểu vì sao chúng ta cần phải truyền key
+deletePersonHandler(personIndex) {
+    const persons = this.state.persons;
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons})
+}
+=> có lỗ hỏng trong cách tiếp cận này
+
+{
+  this.state.person.map((x, index) => {
+    return <Person 
+        click={() => this.deletePersonHandler(index)}
+        name={x.name} 
+      />
+  })
+}
+
