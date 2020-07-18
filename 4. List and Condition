@@ -35,7 +35,11 @@ deletePersonHandler(personIndex) {
     persons.splice(personIndex, 1);
     this.setState({persons: persons})
 }
-=> có lỗ hỏng trong cách tiếp cận này
+=> có lỗ hỏng trong cách tiếp cận này (const persons = this.state.persons;) -> point tới original state 
++ persons.splice(personIndex, 1): tác động thay đổi tới original state dẫn tới ko dự đoán được
++ cách tiếp cận tốt hơn là create new object và setState với object đó. Sử dụng:
+const persons = this.state.persons.slice() or [...this.state.persons]
+
 
 {
   this.state.person.map((x, index) => {
@@ -45,4 +49,19 @@ deletePersonHandler(personIndex) {
       />
   })
 }
-
+ - Chúng ta cần thêm property key vào <Person/> vì sẽ giúp cho react nhận biết từng thành phần và sẽ re-render những cái changed thay vì toàn bộ list
+ - key sẽ nhận 1 giá trị unique như ID
+ - Nếu key gán là index: mỗi khi list change thì mỗi element sẽ nhận index mới -> not a good key
+ 
+ 
+3. Flexible update name
+nameChangeHandler = (event, id) => {
+  const personIndex = this.state.persons.findIndex(p => p.id === id);
+  const person = {...this.state.persons[personIndex]};
+  person.name = event.target.value;
+  const persons = [...this.state.persons];
+  persons[personIndex] = person;
+  
+  this.setState({persons: persons})
+}
+JSX:  <Person changed={(event) => this.nameChangeHandler(event, person.id)} name={this.name}></Person>
