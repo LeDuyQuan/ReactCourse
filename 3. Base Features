@@ -147,9 +147,8 @@ JSX:  <Person changed={this.nameChangeHandler} name={this.name}></Person>
 [COMPONENT]
 <input type="text" onChange={props.changed} value={props.name}>
 
-
 value={props.name} : điều này sẽ tạo ra two way binding khi data được hiển thị lên input ngay từ đầu(nếu ko có onChange đi kem sẽ lỗi vì gán value vào 1 giá trị không thay đổi được)
-
+- Nhưng với cách này sẽ bị warning và chúng ta cần làm lại nameChangeHandler
 
 
 6. 2 Cách khai báo css
