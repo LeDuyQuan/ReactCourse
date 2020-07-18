@@ -152,4 +152,16 @@ value={props.name} : điều này sẽ tạo ra two way binding khi data đượ
 
 
 
+6. 2 Cách khai báo css
+a. Tạo file css riêng: nên bọc trong 1 class vì mọi file css đều là global
+- Cần import để sử dụng
+
+b. Tạo 1 biến css trong JS sau đó khai báo style property của JSX (styling is scoped to the component)
+const styleButton = {
+  backgroundColor: 'white',
+  border: '1px solid blue'
+}
+
+=> <button style={styleButton} onClick={onChange}>Change</button> 
+-> Muốn tạo style khi hover thì sao -> đây là hạn chế của cách viết này
 
