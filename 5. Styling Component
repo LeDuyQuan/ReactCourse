@@ -24,7 +24,7 @@ if (this.state.persons.length <= 1) {
 <p className={classes.join(' ')}></p>
 
 
-3. Sử dụng pseudo code and query media for inline style css
+3. <Radium> Sử dụng pseudo code and query media for inline style css
 - Install RADIUM package
 import Radium from 'radium'
 export default Radium(App);
@@ -53,3 +53,12 @@ import Radium, {StyleRoot} from 'radium';
 <StyleRoot>
   <Compo style={style}/>
 </StyleRoot>
+
+
+4. <Styled Component>
+- Install styled component
+- import styled from 'styled-components'
+styled sẽ có tất cả mọi tag trong HTML như div, button,...
+
+
+
