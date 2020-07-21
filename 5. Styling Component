@@ -29,6 +29,8 @@ if (this.state.persons.length <= 1) {
 import Radium from 'radium'
 export default Radium(App);
 
+-> inline styles
+
 const style = {
   backgroundColor: 'green',
   ':hover': {
@@ -39,6 +41,8 @@ const style = {
     width: '450px'
   }
 }
+
+[Dynamic]
 if (isShow) {
     //do something
     style.backgroundColor = 'red';
@@ -51,14 +55,46 @@ if (isShow) {
 - Đối với query media hay sử dụng animation thì ta cần wrap lại với StyleRoot nữa
 import Radium, {StyleRoot} from 'radium';
 <StyleRoot>
-  <Compo style={style}/>
+  <button style={style}></button>
 </StyleRoot>
 
 
 4. <Styled Component>
 - Install styled component
-- import styled from 'styled-components'
-styled sẽ có tất cả mọi tag trong HTML như div, button,...
+import styled from 'styled-components'
+- styled sẽ có tất cả mọi tag trong HTML như div, button,...
+- Tạo bằng styled sẽ return về 1 React component
 
+***Styled sẽ tự động create class và import trên head HTML, sau đó sử dụng bằng auto className đó
+-> not inline style - khai báo style trên head và gọi class sử dụng
 
+const StyledButton = styled.button`
+  background-color: green;
+  cursor: pinter;
+  
+  &:hover {
+    background-color: lightgreen;
+  }
+`
 
+return(
+  <div className="abc">
+    <StyledButton onClick={}>Click</StyledButton>
+  </div>
+)
+
+[Dynamic]
+return(
+  <div className="abc">
+    <StyledButton show={isShow} onClick={}>Click</StyledButton>
+  </div>
+)
+
+const StyledButton = styled.button`
+  background-color: ${props => props.show ? 'red' : 'green'};
+  cursor: pinter;
+  
+  &:hover {
+    background-color: lightgreen;
+  }
+`
