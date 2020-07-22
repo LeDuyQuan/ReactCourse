@@ -1,0 +1,5 @@
+1. Debug by Dev tool của browser
+
+2. Install plugin React Developer Tools
+- Có thể xem được các state và props trong 1 Component
+- Tùy chỉnh dưới dạng console
