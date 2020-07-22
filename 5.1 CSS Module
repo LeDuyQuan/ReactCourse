@@ -1,0 +1,62 @@
+- Nếu chưa có sử dụng webpack thì chạy lệnh: npm run eject
+- Vào webpack.config.js
+- Trong module: {} -> rule
+- Find: test /\.css$/, -> loader by css-loader
+- Trong options
+
+modules: true,                                      // enable css module
+localIdentName: '[name]__[local]__[hash:base64:5]'  //tự động tạo tên class unique
+
+=>Sau đó import class thành 1 cách khác thay vì import ./App.css thì:
+import classes from './App.css'
+
+return(
+  <div className={classes.App}>
+    <button className={classes.Button}></button>
+  </div>
+)
+
+[Dynamic]
+- Khai báo thêm trong CSS
+.Button.Red {
+  background-color: red;
+}
+.Button.Red:hover {
+  background-color: salman;
+}
+
+
+const btnClass = [classes.Button];
+if (isShow) {
+  btnClass.push(classes.Red)
+}
+
+return(
+  <div className={classes.App}>
+    <button className={btnClass.join(' ')}></button>
+  </div>
+)
+
+
+***Hoặc có thể khai báo
+.App {
+}
+.App button {
+  background-color: green;
+}
+.App button.Red {
+  background-color: red;
+}
+
+const btnClass = '';
+if (isShow) {
+  btnClass = classes.Red;
+}
+
+return(
+  <div className={classes.App}>
+    <button className={btnClass}></button>
+  </div>
+)
+
+
