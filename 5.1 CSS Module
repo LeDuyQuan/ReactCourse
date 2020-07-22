@@ -60,3 +60,8 @@ return(
 )
 
 
+***NOTE
+- Nếu sử dụng react-script 2 or higher thì không cần phải npm run eject
+- Chỉ cần thêm "module" vào tên của file css
+Person.module.css
+import classes from './Person.module.css'
