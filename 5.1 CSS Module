@@ -68,3 +68,35 @@ return(
 - Chỉ cần thêm "module" vào tên của file css
 Person.module.css
 import classes from './Person.module.css'
+
+
+[Config] Vừa sử dụng được css và module css
+module: {
+  rules: [
+    {
+      test: /\.css$/,
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            importLoaders: 1,
+            modules: {
+	        localIdentName: "[name]__[local]___[hash:base64:5]", //tự động tạo tên class unique
+	    },
+          }
+        }
+      ],
+      include: /\.module\.css$/    //bao gồm file là module.css
+    },
+    {
+      test: /\.css$/,
+      use: [
+        'style-loader',
+        'css-loader'
+      ],
+      exclude: /\.module\.css$/   //loại trừ các file là  module.css
+    }
+  ]
+}
+
