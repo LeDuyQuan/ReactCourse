@@ -3,9 +3,12 @@
 - Trong module: {} -> rule
 - Find: test /\.css$/, -> loader by css-loader
 - Trong options
-
-modules: true,                                      // enable css module
-localIdentName: '[name]__[local]__[hash:base64:5]'  //tự động tạo tên class unique
+ 
+options: {
+	    modules: {
+	        localIdentName: "[name]__[local]___[hash:base64:5]", //tự động tạo tên class unique
+	    },
+}
 
 =>Sau đó import class thành 1 cách khác thay vì import ./App.css thì:
 import classes from './App.css'
