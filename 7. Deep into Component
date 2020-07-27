@@ -1,0 +1,17 @@
+1. Class-based and Functional component
+a. Class-based: class X extend Component {}
+- Can access to State
+- Support lifecycle hooks
+- Access state and prop via "this"
+
+b. Functional component: const X = props => {}
+- Can access to State (useState)
+- Not support lifecycle hook
+- Access props via "props"
+
+
+2. Component Lifecycle
+a. contructor: call super(props),       DO: setup state         DONT: cause side-effect
+b. getDerivedStateFromProps(props):     DO: sync state          DONT: cause side-effect
+c. render() -> render child component   prepare & structure JSX code (HTML)
+d. componentDidMount()                  DO: cause side-effect   DONT: update state -> trigger re-render
