@@ -11,7 +11,21 @@ b. Functional component: const X = props => {}
 
 
 2. Component Lifecycle
-a. contructor: call super(props),       DO: setup state         DONT: cause side-effect
-b. getDerivedStateFromProps(props):     DO: sync state          DONT: cause side-effect
+a. contructor: call super(props),       DO: setup state           DONT: cause side-effect
+b. getDerivedStateFromProps(props):     DO: sync state to props   DONT: cause side-effect
 c. render() -> render child component   prepare & structure JSX code (HTML)
-d. componentDidMount()                  DO: cause side-effect   DONT: update state -> trigger re-render
+d. componentDidMount()                  DO: cause side-effect     DONT: update state -> trigger re-render
+
+*** Những lifecycle remove và được hỗ trợ thay vì:
+- componentWillMount(): sử dụng ít và có thể ko đúng -> remove in the future: chuẩn bị state dựa trên props corectly
+- getDerivedStateFromProps cách hoạt động giống componentWillMount
+- componentWillReceiveProps: sẽ bị remove trong phiên bản mới: update state dựa trên props, easy to use this incorrectly
+- getSnapshotBeforeUpdate bao gồm cả componentWillReceiveProps
+- componentWillUpdate -> remove
+
+- Component Lifecycle - Update
+b. getDerivedStateFromProps(props):        *DO: sync state to props       DONT: cause side-effect  
+c. shouldComponentUpdate(nextP, nextS)      DO: decide re-render or not   DONT: cause side-effect  (may cancel updating process)
+d. render() -> render child component       prepare & structure JSX code (HTML)
+e. getSnapshotBeforeUpdate(prevP, prevS)   *DO: hoạt động DOM phút cuối   DONT: cause side-effect  (not change DOM, Ex: get current scrolling position)
+d. componentDidUpdate()                     DO: cause side-effect         DONT: update state -> trigger re-render (tín hiệu cho biết đã hoàn thành update, render đã đc thực thi)
