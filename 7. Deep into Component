@@ -29,3 +29,31 @@ c. shouldComponentUpdate(nextP, nextS)      DO: decide re-render or not   DONT: 
 d. render() -> render child component       prepare & structure JSX code (HTML)
 e. getSnapshotBeforeUpdate(prevP, prevS)   *DO: hoạt động DOM phút cuối   DONT: cause side-effect  (not change DOM, Ex: get current scrolling position)
 d. componentDidUpdate()                     DO: cause side-effect         DONT: update state -> trigger re-render (tín hiệu cho biết đã hoàn thành update, render đã đc thực thi)
+
+
+3. shouldComponentUpdate: 1 hooks quan trọng dùng để tránh những re-render ko cần thiết
+Ví dụ trong App.js có hàm render như sau
+render() {
+  <div>
+    <button onClick={()=>{setState({iShow: false})}}></button>
+    {
+      iShow ? (<Cockpit .../> : null)
+    }
+    <Persons />
+  </div>
+}
+- Thì khi click button -> state change -> re-render App -> <Persons /> -> re-render Persons
+- Mặc dù Persons component ko có j thay đổi nhưng vẫn bị re-render
+- Vì vậy sử dụng shouldComponentUpdate ở Persons
+shouldComponentUpdate(nextProps, nextState) {
+  if (nextProps.persons !== this.props.persons) { //so sánh địa chỉ, nếu props change sẽ tạo ra địa chỉ mới chứa data mới
+    return true;
+  }
+  return false;
+}
+
+***Devtool: chrome -> more tool -> rendering : để có đc highlight khi re-render component
+- Khi child component <Person> có action, mặc dù App bị re-render nhưng nó không cập nhật vào real DOM (ko highlight mặc dù re-render -> do cơ chế vitual DOM)
+- Vì vậy, ngay cả khi không thực hiện 1 số tối ưu hóa hiệu suất, thì cũng nó ko tác động vào real DOM (change DOM)
+
+
