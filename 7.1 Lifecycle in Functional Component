@@ -41,3 +41,14 @@ useEffect(() => { //nếu không có argument thì sẽ luôn chạy khi re-rend
 2. getDerivedStateFromProps ko cần nữa vì đã có props là param của functional component
 Ex: const cockit = props => {}
 - Sau đó có thể sử dụng useState để tạo state từ props  
+
+
+3. React.memo
+- shouldComponentUpdate là 1 hooks quan trọng để prevent re-render ko cần thiết
+- Sử dụng React.memo thay thế trong functional component
+
+const cockpit = props => {}
+export default React.memo(cockpit);
+
+- Nó sẽ ghi nhớ, store 1 snapshot của component này. Và khi input change -> re-render (tức tránh re-render khi parent re-render)
+- Nếu vẫn re-render thì kiểm tra lại props truyền vào hay handle những attribute truyền vào. 
