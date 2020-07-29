@@ -52,3 +52,10 @@ export default React.memo(cockpit);
 
 - Nó sẽ ghi nhớ, store 1 snapshot của component này. Và khi input change -> re-render (tức tránh re-render khi parent re-render)
 - Nếu vẫn re-render thì kiểm tra lại props truyền vào hay handle những attribute truyền vào. 
+
+
+4. When should you optimize
+- Trên thực tế thì những dòng code trong shouldComponentUpdate và React.memo sẽ luôn thực thi và check.
+- Mặc dù ko ảnh hường nhiều tới performance nhưng phải lưu ý về mức độ re-render của 1 component.
+
+
