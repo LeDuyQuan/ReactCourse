@@ -1,0 +1,43 @@
+1.useEffect
+- sử dụng thay thế cho lifecycle hooks
+- useEffect nhận param là 1 function
+- run for every update
+- Kết hợp cả 3 hooks: didMount, didUpdate và willUnmout
+- Có thể tạo nhiều useEffect để quản lý side-effect
+
+useEffect(() => {
+  //Http request
+})
+
+*** didMount
+useEffect(() => {
+  axios.get(listPerson);
+}, []) //no dependencies -> never run (chỉ run first time)
+
+*** didUpdate
+useEffect(() => {
+  axios.post(savePerson);
+}, [props.person]) //chỉ định khi person change thì useEffect này mới thực thi
+
+*** willUnmout
+useEffect(() => {
+  axios.get(listPerson);
+  
+  return () => {
+    //cleanup work
+  }
+}, [])
+
+- Dưới đây là trường hợp có thể hữu dụng khi muốn cancel 1 số hoạt động mỗi khi re-render
+useEffect(() => { //nếu không có argument thì sẽ luôn chạy khi re-render
+  console.log('Chạy thứ 2')
+  return () => {
+    console.log('Chạy trước')
+    //cleanup work 
+  }
+})
+
+
+2. getDerivedStateFromProps ko cần nữa vì đã có props là param của functional component
+Ex: const cockit = props => {}
+- Sau đó có thể sử dụng useState để tạo state từ props  
