@@ -1,0 +1,31 @@
+1. PureComponent instead of shouldComponentUpdate
+- Bởi vì 1 component có thể phụ thuộc dependency nhiều prop ko chỉ persons mà còn có thể là changed function hay clicked function
+- So:
+
+shouldComponentUpdate(nextProps, nextState) {
+  if (nextProps.persons !== this.props.persons 
+    || nextProps.changed !== this.props.changed 
+    || nextProps.clicked !== this.props.clicked) //phải check nhiều props
+    return true;
+  }
+  return false;
+}
+
+- Nếu thông thường chúng ta sẽ muốn check tất cả các props có change hay không để mà re-render -> nên có thể ko cần shouldComponentUpdate nữa.
+- The result will be the same
+
+import React, { PureComponent } from 'react';
+
+class Person extends PureComponent {}
+
+
+2. How React updates the DOM
+- render() is called: có thể cho ra kết quả mới nhưng cũng có thể cho ra kết quả tương tự đã được display
+- Vì vậy ta use shouldComponentUpdate để prevent những lần render ko cần thiết
+- Nhưng thậm chí chúng ta ko check by shouldComponentUpdate, hoặc trường hợp prop change (nhưng vẫn cho ra same result) thì nó vẫn
+chưa tác động vào real DOM. Thày vì đó:
+- React sẽ so sánh giữa old vitual DOM (do nhanh hơn real DOM) và re-render virtual DOM (future DOM - được tạo khi render is called) //React giữ 2 bản sao của DOM
+- React check những chỗ differences
+- Nếu detect được những chỗ khác nhau, nó sẽ tiếp cận real DOM và update những chỗ khác đó (ko re-render toàn bộ DOM)
+- Nếu ko có j khác nhau sẽ ko touch vào real DOM mặc dù render() đã được thực thi
+
