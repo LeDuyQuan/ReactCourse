@@ -1,0 +1,3 @@
+1. Introduce
+- Khái niệm này đơn giản là có 1 component wrap 1 component khác có add thêm styling, bổ sung HTML or some logic
+- Ex: thêm xử lý lỗi mà chúng ta có thể bao quanh bất kỳ thành phần nào tạo ra yêu cầu HTTP
