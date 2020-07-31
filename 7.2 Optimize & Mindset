@@ -28,4 +28,5 @@ chưa tác động vào real DOM. Thày vì đó:
 - React check những chỗ differences
 - Nếu detect được những chỗ khác nhau, nó sẽ tiếp cận real DOM và update những chỗ khác đó (ko re-render toàn bộ DOM)
 - Nếu ko có j khác nhau sẽ ko touch vào real DOM mặc dù render() đã được thực thi
+- Vì vậy nếu có thể hãy sử dụng shouldComponentUpdate để React ko phải tốn chi phí compare vitual DOM
 
