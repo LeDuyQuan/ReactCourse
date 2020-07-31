@@ -30,3 +30,23 @@ chưa tác động vào real DOM. Thày vì đó:
 - Nếu ko có j khác nhau sẽ ko touch vào real DOM mặc dù render() đã được thực thi
 - Vì vậy nếu có thể hãy sử dụng shouldComponentUpdate để React ko phải tốn chi phí compare vitual DOM
 
+
+3. Single root JSX
+- React chỉ cho phép khai báo 1 root trong return()
+return (
+  <div></div>
+  <div></div> //not allowed
+)
+
+- Nhưng React cũng hỗ trợ render 1 mảng element: bằng chứng là trong ví dụ return this.props.person.map()
+- Để làm được điều đó chúng ta phải thay đổi render() -> render[] và khai báo thêm key để React order
+return [
+  <div index="i1"></div>
+  <div index="i2"></div>
+]
+
+- Cách 2 là tạo 1 HOC để wrap các component (Wrapper)
+const Wrapper = props => props.children; //children tất cả giữa open và close tag
+export default Wrapper;
+
+- Và trong React 16.2 có thay thế Wrapper là React.Fragment //import React, { Fragment } from 'react';
