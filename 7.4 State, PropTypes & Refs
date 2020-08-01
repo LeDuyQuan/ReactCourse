@@ -30,3 +30,32 @@ import PropTypes from 'prop-types'
  
  
  3. Refs
+ - Nếu ta muốn focus vào input cuối cùng sau khi render: trong class Person.js
+ class Person extends Component {
+  componentDidMount(){
+    //document.querySelector('input').focus(); sẽ focus vào input đầu tiên trong DOM
+    this.inputElement.focus();
+  }
+  render(){
+    return (
+      <input
+        ref = {(inputEl) => {this.inputElement = inputEl}}  //gán giá trị cho inputElement trong class, nên only use ref in class component
+        type="text"
+        onChange
+        value
+      >
+    )
+  }
+ }
+ 
+ - ref là 1 property cũng như index được hiểu bởi React
+ - In React 16.3 ta có 1 cách mới để sử dụng ref
+ contructor(){
+  this.inputElementRef = React.createRef();
+ }
+ //Intead
+ ref={this.inputElementRef} //React make connection và cho phép this.inputElement access element
+ 
+ componentDidMount(){
+  this.inputElement.current.focus()
+ }
