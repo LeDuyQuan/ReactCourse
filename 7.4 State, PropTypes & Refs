@@ -59,3 +59,16 @@ import PropTypes from 'prop-types'
  componentDidMount(){
   this.inputElement.current.focus()
  }
+ 
+ *** Sử dụng ref trong functional component
+ import React, {useRef} from 'react'
+ const cockpit = props => {
+  const btnRef = useRef(null);
+  useEffect(() => {
+    btnRef.current.click()  //trong react hook, render sẽ chạy đầu tiên, sau đó các hook mới chạy
+  }, [])
+  
+  return (
+    <button ref={btnRef}></button>
+  )
+ }
