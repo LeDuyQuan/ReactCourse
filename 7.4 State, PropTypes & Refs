@@ -1,0 +1,32 @@
+1. Setting State Correctly
+- setState ko trigger ngay lập tức khi call setState ở dòng code nào đó (ko đảm bảo để thực thi và finish ngay lập tức)
+setState({
+  persons: person,
+  changeCouter: this.state.changeCouter + 1
+})
+-> Vì thế "this.state" ko đảm bảo là latest hay là previous state (giả sử cũng gọi setState ở somewhere esle in project, mà setState này chạy đồng thời hoặc
+có thể chạy sớm hơn. Vì thế "this.state" có thể depend vào state ko mong đợi)
+
+- Vì vậy khi muốn update 1 state mà state đó phải dựa vào old state để tính toán thì chúng ta nên:
+setState((prevState, props) => {
+  return {
+    persons: person,
+    changeCouter: prevState.changeCouter + 1
+  }
+})
+
+
+2. Using PropTypes
+- Tạo kịch bản để truyền props chính xác cho 1 component
+- Tránh truyền những props ko cần thiết và throw error (or warning) nếu truyền props ko chính xác
+npm install --save prop-types
+import PropTypes from 'prop-types'
+ Person.propTypes = {
+  click: PropTypes.func,
+  name: PropTypes.string,
+  age: PropType.number,
+  changed: PropTypes.func
+ }
+ 
+ 
+ 3. Refs
