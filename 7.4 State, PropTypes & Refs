@@ -72,3 +72,43 @@ import PropTypes from 'prop-types'
     <button ref={btnRef}></button>
   )
  }
+
+
+4. Context API (gần giống Redux)
+- Khi muốn pass 1 prop từ component top A xuống component D thì bình thường phải pass via 2 component B và C nữa.
+- Tức là trường hợp ta có long chains of data want to pass
+- Vì vậy React có 1 feature là context, nó là 1 global JS value đc React tạo ra. Tuy nhiên chúng ta có thể decide phạm vi hoạt động.
+
+* Tạo 1 file chứa state muốn pass
+const authContext = React.createContext ({
+  authenticated: false,
+  login: () => {}
+})
+
+* File Top A
+import AuthContext from '..'
+<AuthContext.Provider value = {{
+  authenticated: this.state.authenticated,  //logic ở trong file A
+  login: this.loginHandler
+}}>
+...
+</AuthContext.Provider>
+
+* File child muốn sử dụng state
+import AuthContext from '..'
+<AuthContext.Consumer>
+  {(context) => <button onClick={context.login}></button>}
+</AuthContext.Consumer>
+
+=> Với tiếp cận createContext này chỉ sử dụng trong class-component, và ko thể access state của Context vào trong componentDidMount  
+
+- Ta có tiếp cận mới: ko cần phải wrap component
+static contextType = AuthContext; //React auto connect class component và AuthContext và cung cấp 1 property là "context" property
+- Sử dụng:
+componentDidMount() {
+  this.context.authenticated
+}
+
+- Đối với fucntion component thì ta sử dụng: useContext
+const authContext = useContext(AuthContext);
+-> <button onClick={authContext.login}></button>
