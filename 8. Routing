@@ -13,4 +13,6 @@ render(
 <Route path="/" exact render={() => <h1>Home</h1>} /> //exact property để sử dụng chính xác đường dẫn trong path
                                                       //nếu ko dùng: mọi đường dẫn bắt đầu bằng '/' sẽ render <h1>Home</h1>
                                                       
-
+- Sử dụng:
+<Route path="/" exact component={Post}}
+- Nó sẽ load component như render ngay tại khai báo Route này, 
