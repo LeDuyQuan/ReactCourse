@@ -10,9 +10,24 @@ render(
 );
 
 - Sử dụng bằng cách import { Route } from 'react-router-dom'
-<Route path="/" exact render={() => <h1>Home</h1>} /> //exact property để sử dụng chính xác đường dẫn trong path
-                                                      //nếu ko dùng: mọi đường dẫn bắt đầu bằng '/' sẽ render <h1>Home</h1>
+<Route path="/home" exact render={() => <h1>Home</h1>} /> //exact property để sử dụng chính xác đường dẫn trong path
+                                                      //nếu ko dùng: mọi đường dẫn bắt đầu bằng '/home' như '/home/1' cũng sẽ render <h1>Home</h1>
                                                       
 - Sử dụng:
+<a href="/">Click here</a>
 <Route path="/" exact component={Post}}
-- Nó sẽ load component như render ngay tại khai báo Route này, 
+
+- Nó sẽ load component như render ngay tại khai báo Route này, khi chúng ta click vào "Click here"
+- Nhưng href attribute trong thẻ <a> có nhiệm vụ gửi 1 request để get new page -> tức sẽ load lại all page
+- Vì vậy sử dụng Link trong react-router-dom để tạo link mà ko send request
+<Link to="/">Home</Link>
+<Link to={{
+   pathname: '/new-post',
+   search: '?quick-submit=true',
+   hash: '#submit' //nhảy đến 1 phần trong trang
+}}></Link>
+
+- Và component được point tới sẽ có thêm properties trong props
++ history: có 1 vài method như push,...
++ location
++ match
