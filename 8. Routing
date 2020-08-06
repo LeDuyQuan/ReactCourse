@@ -31,3 +31,9 @@ render(
 + history: có 1 vài method như push,...
 + location
 + match
+
+- Nhưng những props này ko được pass xuống component con hơn nữa. Có 2 cách để pass xuống:
++ {...props}
++ sử dụng HOC component import { withRouter } from 'react-router-dom'
+-> export default withRouter(App) //những component con trong App sẽ có 3 props trên
+
