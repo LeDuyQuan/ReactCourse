@@ -20,7 +20,7 @@ render(
 - Nó sẽ load component như render ngay tại khai báo Route này, khi chúng ta click vào "Click here"
 - Nhưng href attribute trong thẻ <a> có nhiệm vụ gửi 1 request để get new page -> tức sẽ load lại all page
 - Vì vậy sử dụng Link trong react-router-dom để tạo link mà ko send request
-<Link to="/">Home</Link>
+<Link to="/" exact>Home</Link>
 <Link to={{
    pathname: '/new-post',
    search: '?quick-submit=true',
@@ -37,3 +37,41 @@ render(
 + sử dụng HOC component import { withRouter } from 'react-router-dom'
 -> export default withRouter(App) //những component con trong App sẽ có 3 props trên
 
+
+2. Path tuyệt đối (absolute) và tương đối (relative)
+- Những đường dẫn như to='/' hay to='/home' là đường dẫn tuyệt đối
+- Đường dẫn tuyệt đối: luôn luôn phụ thuộc vào domain
+- Nếu bạn muốn xây dựng một liên kết chỉ đơn giản là nối tiếp vào đường dẫn hiện tại: -> đường dẫn tương đối
+<Link to={{
+   pathname: this.props.match.url + '/new-post',
+}}></Link>
+
+
+3. Styling the active route
+- Thay thế Link bằng NavLink để có được class="active" khi link đó đang được active
+- Có thể overide className active thành my-active:
+<NavLink 
+   to="/" exact 
+   activeClassName="my-active"
+   activeStyle={{       //dùng để style trực tiếp khi active
+      color: '#fa934f',
+      textDecoration: 'underline'
+   }}
+>Home</NavLink>
+
+
+4. Passing Route Param //ví dụ có 1 danh sách post muốn link tới trang detai post
+- Để truyền động thì ta có cú pháp
+- Và để nó ở dưới cùng của route vì có thể cản trở đường dẫn như: path="/post/new-post"
+<Route path="/post/:id"></Route>
+
+- Và để 1 danh sách Post component có link router thì ta wrap nó lại
+listPost.map()
+<Link to={'/post' + post.id} key={post.id}>
+   <Post>
+      
+      ...
+   </Post>
+</Link>
+- Ở bên child component ta sẽ hứng id bằng cách:
+this.props.match.params.id
