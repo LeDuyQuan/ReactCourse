@@ -75,3 +75,16 @@ listPost.map()
 </Link>
 - Ở bên child component ta sẽ hứng id bằng cách:
 this.props.match.params.id
+
+
+5. Switch
+- Trong thực tế nếu ta có đoạn route như thế này có thể bị sẽ bị chèn và đè lên route kế tiếp
+<Route path="/post/lasted-post" component={A}></Route>
+<Route path="/post/:id" component={B}></Route>
+- Như thế này sau 1 vài thao tác có thể ta đang ở component A nhưng vẫn sẽ xuất hiện thêm component B
+- Vì vậy ta cần nói với React chỉ load 1 Route tại 1 thời điểm bằng cách import thêm Switch
+import { Switch } from 'react-route-dom'
+<Switch>
+   <Route path="/post/lasted-post" component={A}></Route>
+   <Route path="/post/:id" component={B}></Route>
+</Switch>
