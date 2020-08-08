@@ -104,3 +104,18 @@ import { Switch } from 'react-route-dom'
 7. Redirect routing
 import { Redirect } from 'react-route-dom'
 <Redirect from="/" to="/post">
+
+
+8. Working with Guard
+- Là khái niệm thiết kế route có kiểm tra tính xác thực của người dùng (xem có đăng nhập chưa)
+<Route path="/public" component={Public} />
+<Route path="/login" component={Login} />
+<PrivateRoute path='/protected' component={Protected} />
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={(props) => (
+    fakeAuth.isAuthenticated === true
+      ? <Component {...props} />
+      : <Redirect to='/login' />
+  )} />
+)
