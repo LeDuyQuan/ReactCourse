@@ -76,6 +76,11 @@ listPost.map()
 - Ở bên child component ta sẽ hứng id bằng cách:
 this.props.match.params.id
 
+***
+- Chúng tá có thể navigate thay thế cho Link bằng cách thêm method: this.props.history.push('/post' + post.id)
+- Cách này hay sử dụng để navigate sau khi thực hiện điều gì đó như request HTTP success.
+- Sử dụng history.push để push 1 path mới vào stack //có thể goBack đc thay vì <Redirect to=""> sẽ replace path === history.replace
+
 
 5. Switch
 - Trong thực tế nếu ta có đoạn route như thế này có thể bị sẽ bị chèn và đè lên route kế tiếp
@@ -88,3 +93,14 @@ import { Switch } from 'react-route-dom'
    <Route path="/post/lasted-post" component={A}></Route>
    <Route path="/post/:id" component={B}></Route>
 </Switch>
+
+
+6. Nested route (chồng routing)
+- Ví dụ 1 component ListPost và muốn lồng Post component vào: để hiển thị 2 component cùng 1 lúc
+- Khai báo Route trong Post thay vì ngoài ListPost
+<Route path="post/:id"></Route> or <Route path={this.props.match.url + '/:id'}></Route>
+
+
+7. Redirect routing
+import { Redirect } from 'react-route-dom'
+<Redirect from="/" to="/post">
