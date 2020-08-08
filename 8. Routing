@@ -119,3 +119,10 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
       : <Redirect to='/login' />
   )} />
 )
+
+
+9. Handle 404 case
+a. <Route render={() => <h1>Not found</h1>}>
+b. <Route component={NotFound}>
+c. <Redirect from='/' to='/notfound'>
+
