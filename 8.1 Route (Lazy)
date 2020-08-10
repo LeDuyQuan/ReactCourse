@@ -1,0 +1,47 @@
+1. Tạo HOC component để thực hiện Lazy Loading
+- Mọi Component sẽ được load trước trong khi có thể user sẽ hiếm khi hoặc ko visit những Route (direct tới component) đó
+- Vì vậy, chúng ta ko cần tải trước code mà để đến khi user visit component đó mới bắt đầu tải component đó => Lazy loading
+
+ import React, { Component } from 'react'
+ 
+ const asyncComponent = importComponent => {
+  return class extends Component {
+    state = {
+      component: null
+    }
+    
+    componentDidMount() {
+      importComponent().then(cmp => {
+        this.setState({component: cmo.default});
+      })
+    }
+    
+    render(){
+      const C= this.state.component;
+      return C ? <C {...this.props} /> : null;
+    }
+  }
+ }
+ export default asyncComponent;
+ 
+ - Sử dụng:
+ const AsyncNewPost = asyncComponent(() => {
+    return import('./NewPost/Newpost');
+ })
+ 
+ <Route path="./post" component={AsyncNewPost} />
+ 
+ 
+ 2. Nếu sử dụng React 16.6 trở lên
+ import { Component, Suspense } from 'react'
+ 
+ const Posts = React.lazy(() => import('./containers/Posts'))
+ <Route 
+    path="/posts"
+    render={() => (
+        <Suspense fallback={<div>Loading...</div>}>
+            <Posts />
+        </Suspense>
+    )}
+ />
+ 
