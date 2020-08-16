@@ -1,0 +1,17 @@
+- Có 2 dạng Form: uncontrolled và controlled
+
+1. Với uncontrolled form, hướng làm là:
+- Sử dụng ref để lấy dữ liệu
+- Sử dụng onClick handler để trigger hàm handleSubmitClick. Bên trong hàm handleSubmitClick (khai báo chỗ khác), ta muốn làm gì là việc của ta.
+- Do tính thụ động của onClick, ta chỉ có giá trị mới trong input khi click vào 1 thứ gì đó.
+
+<input type="text" placeholder="first name" ref={input => this.firstName = input} />
+<input type="text" placeholder="family name" ref={input => this.familyName = input} />
+<button onClick={this.handleSubmitClick}>Submit</button>
+
+
+2. Với controlled form, hướng làm là:
+- Sử dụng onChange handler để trigger hàm handleNameChange. Trong handleNameChange, ta cập nhật giá trị trong từng ô input thông qua setState().
+- Do tính chất luôn phản ứng trước bất kỳ thay đổi trong input của onChange, kết hợp với setState(), ta luôn có được giá trị mới nhất của input mà chẳng phải đụng tay chân.
+<input type="text" placeholder="first name" name="firstName" onChange={this.handleNameChange} />
+<input type="text" placeholder="family name" name="familyName" onChange={this.handleNameChange} />
