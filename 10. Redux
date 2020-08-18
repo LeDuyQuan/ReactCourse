@@ -1,0 +1,13 @@
+1. Redux Flow
+- Ta có 1 Central Store: để lưu toàn bộ state
+- Ta có Components: để vận dụng các state
+- Các Actions được dispatch (gửi) từ Component
+- Actions: chứa information with a type (chỉ là messenger) nó ko hold any logic, dont know how to update store
+- Reducers: nơi kết nối trực tiếp tới store
+- Actions chứa 1 type sẽ reaches (tìm) tới Reducer và Reducer check type và define code cho type của Action trong Reducer
+- Reducer là pure function (no HTTP request,... no delay) nhận được Action và update state
+
+Làm cách nào để chúng tôi lấy lại trạng thái đã cập nhật vào thành phần của chúng tôi?
+- Sử dụng 1 Subscription model
+- Store sẽ trigger tất cả Subscription bất cứ khi nào state changes
+- Component có đăng ký để store các update và sau đó nó sẽ tự động nhận các thay đổi (state updated)
