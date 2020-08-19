@@ -11,3 +11,19 @@ Làm cách nào để chúng tôi lấy lại trạng thái đã cập nhật v�
 - Sử dụng 1 Subscription model
 - Store sẽ trigger tất cả Subscription bất cứ khi nào state changes
 - Component có đăng ký để store các update và sau đó nó sẽ tự động nhận các thay đổi (state updated)
+
+
+2. Setting up Reducer and Store
+const redux = require('redux')
+const createStore = redux.createStore;
+
+const initialState = {    //set giá trị ban đầu cho state để tránh undefined
+}
+
+//Reducer: là 1 function gồm 2 params là old state và action
+const rootReducer = (state = initialState, action) => {
+  return state;
+}
+
+//Store
+const store = createStore(rootReducer)
