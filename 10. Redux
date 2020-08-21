@@ -18,6 +18,7 @@ const redux = require('redux')
 const createStore = redux.createStore;
 
 const initialState = {    //set giá trị ban đầu cho state để tránh undefined
+  couter: 0
 }
 
 //Reducer: là 1 function gồm 2 params là old state và action
@@ -27,3 +28,32 @@ const rootReducer = (state = initialState, action) => {
 
 //Store
 const store = createStore(rootReducer)
+
+//Dispatching Action
+store.dispatch({type: 'INC_COUNTER' })
+store.dispatch({type: 'ADD_COUNTER',  value: 10 })
+
+***
+Quay lại Reducer
+const rootReducer = (state = initialState, action) => {
+  if (action.type === 'INC_COUNTER') {
+    //state.couter++;    This is not immutable, đang thay đổi state gốc
+    //return state;      Nên return về 1 new object
+    return {
+      ...state,
+      couter: state.couter + 1
+    }
+  }
+   if (action.type === 'ADD_COUNTER') {
+    return {
+      ...state,
+      couter: state.couter + action.value
+    }
+  }
+  return state;
+}
+
+//Subscription: sẽ được trigger mỗi khi state change
+store.subscribe(() => {
+  console.log(store.getState());
+})
