@@ -1,0 +1,48 @@
+1. Trước đó là cú pháp Node.js, sau đây là cú pháp ES6
+import { createStore } from 'redux'
+import reducer from '../../reducer.js'
+
+const store = createStore(reducer);
+
+- Và để connect giữa React và Redux ta cần import 1 library là react-redux
+import { Provider } from 'react-redux'
+
+ReactDOM.render(
+   <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+   </Provider>
+   document.getElementById('root')
+);
+
+- Bây giờ chúng ta muốn lấy data từ store: thay vì dùng subcribe như trước thì react-redux cung cấp cho ta 1 chức năng: connect
+import { connect } from 'react-redux'
+
+- connect is a function which returns a higher order component.
+- connect là 1 function return về 1 function nên ko wrap như thế này: export default connect(Couter);
+mà là: 
+
+//get state
+const mapStateToProps = state => {  //return về 1 js object
+  return {
+    count: state.counter
+  }
+}
+
+//change state
+const mapDispatchToProps = dispatch => {  //cũng return về 1 js object
+  return {                                    //value của property là anonymous function
+    onIncrementCounter: () => dispatch({type: 'INCREMENT'})      //dispatch nhập argument là 1 object
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Counter);
+
+- Sau đó chúng ta sẽ sử dụng: count và onIncrementCounter via props
+
+***Note
+- When ever you dispatch something, it goes through that single reducer you have in app
+- Vì vậy các Reducer mà ko handle các action mà ta đang dispatch luôn chứa đoạn "return state" ở mỗi Reducer
+
+
