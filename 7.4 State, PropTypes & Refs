@@ -15,6 +15,11 @@ setState((prevState, props) => {
   }
 })
 
+***Tại sao chúng ta phải dùng setState để mutate data thay vì update tự do hơn? ví dụ this.state.persons = person
+- Vì React muốn re-run các life cycle hooks componentWillReceiveProps, shouldComponentUpdate, componentWillUpdate, render, componentDidUpdate
+mỗi khi state change, React sẽ biết state change thông qua setState function. Nếu không, React sẽ phải làm nhiều việc hơn để track (theo dõi)
+các thay đổi. Để làm nó đơn giản nên React sử dụng setState.
+
 
 2. Using PropTypes
 - Tạo kịch bản để truyền props chính xác cho 1 component
