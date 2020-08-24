@@ -1,0 +1,29 @@
+1. Khi thực hiện update state thực ra là return về new state
+
+- Khi update state chúng ta không nên: (để tránh state thay đổi ko dự đoán được)
+case 'ICREMENT':
+  const newState = state;
+  newState.counter = state.counter + 1;
+  return newState;
++ Không nên tiếp cận như này bởi vì ta đang mutate trực tiếp old state
+
+- Thay vào đó chúng ta nên copy old state 
+case 'ICREMENT':
+  const newState = Object.assign({}, state);
+  newState.counter = state.counter + 1;
+  return newState;
+  
++ Tiếp cận ngắn hơn
+case 'ICREMENT':
+  return {
+    ...state,
+    counter: state.counter + 1
+  }
+  
+- Nhưng nếu với state là array thì điều trên sẽ ko deep clone do array là reference data, nên
+case 'ICREMENT':
+  return {
+    ...state,
+    counter: state.counter + 1,
+    array: state.dataArray.concat(state.counter)    //ko dùng push vì concat sẽ tạo ra 1 new array
+  }
