@@ -1,0 +1,44 @@
+1. Structure (default)
+- React component sẽ có 1 file đi kèm để chứa style CSS
+- Vue: Style CSS được khai báo bên trong component file
+
+
+2. Quản lý và mutate data
+- React tạo state object để quản lý data
++ Và khi change data phải thông qua setState function
+
+- Vue tạo data object bình thường để quản lý
++ Có thể change data dễ dàng (set lại value property trong object)
+
+
+3. Binding
+- React sử dụng one-way binding tức thay đổi model sẽ dẫn tới thay đổi view
++ Sử dụng attribute là "value", muốn two-way binding thì thêm onChange()
+<input type"text" value="this.state.name" onChange="this.onChangeHandler"></input>
+
+- Vue sử dụng two-way bingding với attribute là "model"
+<input type"text" :model="name"></input>
+
+
+4. Pass event listeners
+- React sử dụng các event giống như JS thuần
+- Vue sử dụng thêm ký tự @ vào trước các event: @click tức v-on:click
+
+
+5. Pass data to child component
+- React
+{ list.map(value,index => 
+  <ToDoItem key={index} item={value} />
+)}
+
+- Vue
+<ToDoItem v-for="value in list" :todo="value" :key="index/>
+
+
+6. Emit data to a parent
+- React sẽ truyền function A từ parent xuống child thông qua props, khi child excute function A trong props thì sẽ trigger function A ở parent
+
+-Vue: child sẽ viết 1 function chứa this.$emit('key', data), và parent sẽ listen bằng cách sử dụng @key="onHandler" và khai báo onHandler
+
+
+7. Tổ chức router,...
