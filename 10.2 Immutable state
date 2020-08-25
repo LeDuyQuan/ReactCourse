@@ -1,3 +1,14 @@
+- Immutable là tính bất biến của đối tượng. Sau khi đã khởi tạo thì sẽ không thể thay đổi trạng thái.
+
+Vì sao trong Redux (Reducer) thì bắt buộc phải là immutable state?
++ Do Redux (hay cả React) sử dụng phương pháp so sánh nông (so sánh tham chiếu)
++ So sánh nông (shallow equality check) nhanh hơn so sánh sâu (deep equality check) do nếu data lồng nhau nhiều sẽ tốn nhiều thời gian để check từng item
++ combineReducers sẽ thực hiện một shallow equality check giữa state slice hiện tại A và state slice được trả về B bởi reducer
++ Vì vậy nếu chúng ta mutable data (tức thay đổi original state) thì combineReducers sẽ hiểu A và B tham chiếu nhau -> ko update store -> ko re-render
++ Và nếu mỗi lần chúng ta return new object ở mỗi case (copy từ original state) thì dẫn đến re-render
++++ Vì vậy ta luôn có đoạn return state ở cuối switch-case (trong reducer) để combineReducers nhận ra state slice ko thay đổi -> tránh re-render ko cần thiết
+
+
 1. Khi thực hiện update state thực ra là return về new state
 
 - Khi update state chúng ta không nên: (để tránh state thay đổi ko dự đoán được)
@@ -25,5 +36,5 @@ case 'ICREMENT':
   return {
     ...state,
     counter: state.counter + 1,
-    array: state.dataArray.concat(state.counter)    //ko dùng push vì concat sẽ tạo ra 1 new array
+    array: state.dataArray.concat({id: new Date(), value: state.counter})    //ko dùng push vì concat sẽ tạo ra 1 new array
   }
