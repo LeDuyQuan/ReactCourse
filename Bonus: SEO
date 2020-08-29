@@ -1,0 +1,27 @@
+- Google sẽ có 1 bot tên là crawler để quét các nội dung của các trang web trên thế giới
+1. SSR
+- Do SSR trả về HTML có nội dung đầy đủ nên Crawler sẽ nhìn thấy được nội dung trong HTML đó
+<body>
+    <div class="container">
+    <a href="/otherpage">
+    ...content
+    </div>
+</body>
+
+- Crawler sẽ đọc thẻ <a> và lấy link từ href và tiếp tục quét nội dung ở page /otherpage
+-> Good for SEO
+
+2. Client side rendering
+- Crawler sẽ tìm thấy HTML như sau:
+<body>
+    <div class="container"></div>
+    <script src="app.js"></script>
+</body>
+
+- Crawler ko có chức năng như 1 web brower nên sẽ ko execute app.js file được
+- Nên Crawler ko biết được đoạn code <div class="container"></div> chứa rất nhiều nội dung trong đó
+-> Bad for SEO
+
+*** Solution
+- Crawler của Google sẽ thông minh hơn và sẽ đọc được đoạn <script>
+- Sử dụng library có cơ chế SSR nhưng vẫn single page app: nuxt.js và next.js
