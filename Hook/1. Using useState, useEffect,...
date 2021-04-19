@@ -1,0 +1,8 @@
+1. Useful
+- Allow for attaching reuse logic to component
+- Use state and lifecycle inside React functional component
+- Build 100% app with React functional component (without class)
+
+2. Two way binding
+- Ý tưởng: mỗi khi user nhìn thấy gì đó mới trên màn hình thì tức là nó đang được theo dõi với trạng thái mới (new state)
+- VD: Khi user dùng trình duyệt nhập vào input. Mỗi ký tự mà user nhập sẽ kích hoạt 1 sự kiện, và sự kiện đó sẽ thay thế giá trị hiện tại bằng giá trị mới
