@@ -20,4 +20,44 @@ const imageRef = useRef(null)
 - Bây giờ chúng ta có thể truy cập imag.current
 
 5. useEffect:
-- Tham số đầu tiên của useEffect là 1 hàm thực thi
+- sử dụng thay thế cho lifecycle hooks
+- useEffect nhận param là 1 function
+- run for every update
+- Kết hợp cả 3 hooks: didMount, didUpdate và willUnmout
+- Có thể tạo nhiều useEffect để quản lý side-effect
++ Tham số đầu tiên của useEffect là 1 hàm thực thi
++ Tham số thứ hai là mảng dependency
+
+useEffect(() => {
+  //Http request
+})
+
+*** didMount
+useEffect(() => {
+  axios.get(listPerson);
+}, []) //no dependencies -> never run (chỉ run first time)
+
+*** didUpdate
+useEffect(() => {
+  axios.post(savePerson);
+}, [props.person]) //chỉ định khi person change thì useEffect này mới thực thi
+-> useEffect này đang bao gồm didMount và didUpdate
+
+*** willUnmout
+useEffect(() => {
+  axios.get(listPerson);
+  
+  return () => {
+    //cleanup work
+  }
+}, [])
+
+- Dưới đây là trường hợp có thể hữu dụng khi muốn cancel 1 số hoạt động mỗi khi re-render
+useEffect(() => { //nếu không có argument thì sẽ luôn chạy khi re-render
+  console.log('Chạy thứ 2')
+  return () => {
+    console.log('Chạy trước')
+    //cleanup work 
+  }
+})
+
