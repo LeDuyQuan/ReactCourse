@@ -1,3 +1,8 @@
 1. Chúng ta đã sử dụng react Hook chính xác, nghĩa là gì:
 - React Hooks chỉ được gọi từ functional React component
-- Và trong FRC, các hook phải được gọi từ cấp cao nhất
+- Và trong Functional Component, only call hooks at the top level (tức là ko bỏ hook vào trong 1 điều kiện hay 1 hàm nào đó). 
+Lý do là React đảm bảo rằng các hook của 1 component sẽ luôn được gọi theo cùng một thứ tự.
+
+🔴 Do not call Hooks in class components.
+🔴 Do not call in event handlers.
+🔴 Do not call Hooks inside functions passed to useMemo, useReducer, or useEffect.
