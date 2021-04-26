@@ -7,3 +7,9 @@ Lý do là React đảm bảo rằng các hook của 1 component sẽ luôn đư
 🔴 Do not call in event handlers.
 🔴 Do not call Hooks inside functions passed to useMemo, useReducer, or useEffect.
 
+2. Tạo custom Hook
+- Khi 1 logic có thể được hiển thị ở nhiều UI -> sử dụng custom hook
+- Tạo 1 folder là hooks và file useClock.js
+- return về giá trị thay vì JSX
+- Bên functional component sử dụng: import useClock.js vào và:
+const clock = useClock()
