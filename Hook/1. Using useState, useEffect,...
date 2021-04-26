@@ -14,10 +14,24 @@ const [count, setCount] = useState(0);
 
 onChange={(e) => {setCount(e.target.value)}}
 
+- Giúp cho functional component sử dụng đuợc state
+- useState là replacing chứ ko phải merging: ví dụ const [count, setCount] = useState({name: 'A', value: 6});
++ setCount({name: 'B'}) -> value bị mất
++ vì vậy phải dùng: setCount({ ...count, name: 'B'})
+
+- initial state:
+const initCount = getInitCount(); 
+const [count, setCount] = useState(initCount);
+-> const [count, setCount] = useState(() => {return abc});
+// lần render đầu tiên count sẽ có giá trị là getInitCount(), những lần render tiếp theo sẽ là null
+
 4. useRef: cho phép access trực tiếp vào DOM
 const imageRef = useRef(null)
 <img onMouseOver={() => { imageRef.current.src = 'http:://' }} src={imageUrl} ref={imageRef}/>
 - Bây giờ chúng ta có thể truy cập imag.current
+
+- useRef sẽ giúp tạo ra object, và object sẽ ko thay đổi giữa những lần render
+imageRef.current = 'something'
 
 5. useEffect:
 - sử dụng thay thế cho lifecycle hooks
@@ -30,17 +44,30 @@ const imageRef = useRef(null)
 
 useEffect(() => {
   //Http request
+  //Ko khai báo dependencies -> luôn luôn được chạy khi render
+  return () => {
+    // Run trước khi rerender hoặc khi unmount
+  }
 })
 
 *** didMount
 useEffect(() => {
+  //Chỉ run first time
   axios.get(listPerson);
-}, []) //no dependencies -> never run (chỉ run first time)
+  return () => {
+    // Chỉ chạy khi unmount
+  }
+}, []) //no dependencies
 
 *** didUpdate
 useEffect(() => {
+  //Run first time
+  //Run again nếu props.person change
   axios.post(savePerson);
-}, [props.person]) //chỉ định khi person change thì useEffect này mới thực thi
+  return () => {
+    // Run trước khi rerender hoặc khi unmount
+  }
+}, [props.person])
 -> useEffect này đang bao gồm didMount và didUpdate
 
 *** willUnmout
@@ -61,3 +88,32 @@ useEffect(() => { //nếu không có argument thì sẽ luôn chạy khi re-rend
   }
 })
 
+
+6.
+function App(){
+  // executed before each render
+  const [color, setColor] = useState('deepblack')
+  useEffect(() => {
+    // do your side effect here
+    
+    return () => {
+      // clean up
+    }
+  }, [])
+  
+  // rendering
+  return <h1>Front End React</h1>
+}
+
+6.1. Workflow of useEffect
+MOUNTING
+- rendering
+- run useEffect()
+
+UPDATING (nếu dependence thay đổi)
+- reredering
+- run useEffect cleanup
+- run useEffect
+
+UNMOUNT
+- run useEffect cleanup
