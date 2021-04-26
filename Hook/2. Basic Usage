@@ -6,3 +6,4 @@ Lý do là React đảm bảo rằng các hook của 1 component sẽ luôn đư
 🔴 Do not call Hooks in class components.
 🔴 Do not call in event handlers.
 🔴 Do not call Hooks inside functions passed to useMemo, useReducer, or useEffect.
+
