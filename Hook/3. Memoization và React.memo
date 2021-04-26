@@ -1,0 +1,45 @@
+1. Memoization
+- Là 1 kỹ thuật giúp tăng tốc độ ứng dụng lên 
+bằng cách lưu trữ kết quả của những lần tính toán trước đó 
+và sẽ trả về ngay kết quả nếu lần những tính toán sau cùng input (parameters)
+
+VD:
+render lần 1: add(1, 2) -> tính toán ra 3
+render lần 2: add(1, 2) -> ko tính toán lại -> trả ngay kết quả 3
+
+
+2. React.memo
+- React.memo() là 1 HOC, ko phải hooks
+- Tương tự như PureComponent (ở bên class component) -> áp dụng cho functional component
+- Chỉ rerender component khi props thay đổi
+- Sử dụng shallow comparison: so sánh nông, dừng lại ở bề mặt, ở mức nông, 
+khi mà phép so sánh vừa nhìn thấy 2 đối tượng so sánh chứa 2 địa chỉ vùng nhớ khác nhau là phép toán sẽ return ra false ngay.
+
+*** CHú ý
+- Không dùng function ẩn danh trong các event trong hàm render()
+<Button
+  onBtnClick={() => {
+  	this.setState(prevState => ({ counter: prevState.counter + 1 }));
+  }}
+>
+
+- Không dùng object gán trực tiếp trong hàm render()
+<ComponentB myStyle={{
+  color: 'blue',
+  background: 'gold'
+}}/>
+
+- Move các khai báo biến static ra ngoài functional component
+const myStyle = {
+  color: 'blue',
+  background: 'gold'
+};
+
+const ComponentA = (props) => {
+  return (
+    <div>
+      CHA NÈ CON
+      <ComponentB myStyle={myStyle}/>
+    </div>
+  );
+}
