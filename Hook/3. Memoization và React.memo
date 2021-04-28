@@ -43,3 +43,5 @@ const ComponentA = (props) => {
     </div>
   );
 }
+
+export default React.memo(ComponentA);
