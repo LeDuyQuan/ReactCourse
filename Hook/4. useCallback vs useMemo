@@ -23,3 +23,13 @@ const App = () => {
 
 2. useMemo
 - Cũng như useCallback nhưng ko trả về callback mà là memolized VALUE
+VD:
+const val = [{}, {}, {}]
+-> const val = useMemo(() => [{}, {}, {}], [])
+
+
+3. Có nên sử dụng useCallback và useMemo ở tất cả các callback, value hay không
+-> Chỉ là mirco improvement
+- Không nên: bởi vì React đã đủ nhanh đủ tốt rồi và ko cần care so much about it. Nên tổ chức tốt component: chia tách logic và UI
+- Nên: nếu component là đồ thị, biểu đồ, animation or component đó nặng khi re-render
+
