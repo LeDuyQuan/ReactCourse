@@ -1,0 +1,4 @@
+1. UI: Ant Design, Reactstrap, Material UI
+2: Form: React Hook Form, Formik
+2.1: Validation: Yup, Joi, Custom
+3. Redux Toolkit
