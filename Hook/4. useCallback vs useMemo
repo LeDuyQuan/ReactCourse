@@ -19,3 +19,7 @@ const App = () => {
   <Chart onTypeChange={handleChartTypeChange} />
   // -> Chart ko bị re-render theo
 }
+
+
+2. useMemo
+- Cũng như useCallback nhưng ko trả về callback mà là memolized VALUE
