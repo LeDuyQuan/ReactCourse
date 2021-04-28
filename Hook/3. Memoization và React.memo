@@ -29,7 +29,7 @@ khi mà phép so sánh vừa nhìn thấy 2 đối tượng so sánh chứa 2 đ
   background: 'gold'
 }}/>
 
-- Move các khai báo biến static ra ngoài functional component
+- Move các khai báo biến static ra ngoài functional component: hoặc có thể sử dụng useMemo()
 const myStyle = {
   color: 'blue',
   background: 'gold'
