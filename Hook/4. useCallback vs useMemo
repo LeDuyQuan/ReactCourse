@@ -1,1 +1,21 @@
-g
+1. useCallback
+- Là 1 hook giúp tạo ra memolized callback (trả về 1 function/ callback cũ nếu dependencies ko change) và chỉ tạo ra callback mới khi dependencies thay đổi
+- Nhận vào 2 tham số function và dependencies
+- Nếu dùng empty dependencies thì ko tạo ra function mới
+
+VD:
+// App bị re-render
+const App = () => {
+  const handleChartTypeChange = (type) => {}
+  // -> mỗi lần re-render thì handleChartTypeChange luôn được tạo mới
+  <Chart onTypeChange={handleChartTypeChange} />
+  // -> prop onTypeChange sẽ nhận vào giá trị mới -> Chart bị re-render theo
+}
+
+*** Cách giải quyết
+const App = () => {
+  const handleChartTypeChange = useCallback((type) => {}), [])
+  // -> vì dependencies là empty nên handleChartTypeChange chỉ được tạo ra đúng 1 lần đầu tiên
+  <Chart onTypeChange={handleChartTypeChange} />
+  // -> Chart ko bị re-render theo
+}
