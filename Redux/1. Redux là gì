@@ -1,0 +1,2 @@
+- Là 1 thư viện quản lý state, và state này có thể dự đoán được (predictable) : gồm Action và Store
++ Cùng 1 state và cùng 1 Action thì nó luôn luôn cho ra state mới giống nhau -> predictable
