@@ -1,2 +1,52 @@
 - Là 1 thư viện quản lý state, và state này có thể dự đoán được (predictable) : gồm Action và Store
 + Cùng 1 state và cùng 1 Action thì nó luôn luôn cho ra state mới giống nhau -> predictable
+
+- Khi nào cần sử dụng
++ Cần cache dữ liệu để tái sử dung những lần sau: ko cần gọi thêm API nữa
++ Dữ liệu đc sử dụng ở nhiều nơi, được lồng nhau với nhiều cấp
++ Có hỗ trợ chức năng undo và redo: bằng cách cùng 1 data và cùng 1 action sẽ cho ra state giống nhau -> lib redux-undo
+
+- App có thể chạy tốt mà không cần Redux, Redux có thể sử dụng ở bất cứ nền tảng nào như React, Angular, Vue,...
+
+
+1. Cấu trúc
+src:
+- reducers
+  + hobby.js
+  + todo.js
+  ...
+  index.js. // tổng hợp các reducer (root reducer) combineReducers
+  
+- actions
+  + hobby.js
+  + todo.js
+  
+- pages
+  + HomePage/index.jsx
+  
+- store.js // truyền vào root reducer
+- index.js // setup store provider để React connect vào store trong Redux
+
+
+2. Connect
+- Với class component: sử dụng HOC
+- Với functional component: dùng hooks useSelector() và useDispatch()
+VD:
+const HomePage = () => ({
+  const hobbyList = useSelector(state => state.hobby.list)
+  const dispatch = useDispatch()
+  
+  const onAddHobby = () => {
+    const newHobby = 'Codding'
+    dispatch({
+      type: 'ADD_HOBBY',
+      payload: newHobby
+    })
+  }
+  
+  return (
+    <div>
+      <button onClick="onAddHobby">Add New</button>
+    </div>
+  )
+})
