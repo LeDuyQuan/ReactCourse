@@ -6,3 +6,16 @@
 import React, {Suspense} from 'react'
 const Photo = React.lazy(() => immport('./AC.js'))
 <Suspense fallback={<div>...Loading</div>} /><Suspense>
+
+
+3. Sử dụng jsconfig.json để không còn import back ra nhiều cấp độ như thế này nữa import A from '../../../../constant/app.js'
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "baseUrl": "./src"
+  },
+  "include": ["src/**/*"]
+}
+
+=> import A from 'constant/app.js'
