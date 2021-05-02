@@ -19,3 +19,25 @@ const Photo = React.lazy(() => immport('./AC.js'))
 }
 
 => import A from 'constant/app.js'
+
+
+4. Formik form
+<Formik>
+  { formikProps => {
+      const {values, errors, touched} = formikProps
+      return (
+        <Form>
+          <FastField 
+            // prop của FastField
+            name="title"
+            component="InputField"
+            
+            // prop truyền vào trong InputField
+            label="title"
+            placeholder="test..."
+          />
+        </Form>
+      )
+    }
+  }
+</Formik>
