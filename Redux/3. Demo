@@ -1,2 +1,8 @@
 1. Nên xài Formik Form thay vì Redux Form, vì state của form sẽ được lưu hết trên store.
 - Vì xài form A chỉ trong mỗi component A (qua component khác ko có nhu cầu dùng) nhưng vẫn lưu trên store
+
+
+2. Sử dụng Lazy load thì phải dùng Suspense để bao các Router component
+import React, {Suspense} from 'react'
+const Photo = React.lazy(() => immport('./AC.js'))
+<Suspense fallback={<div>...Loading</div>} /><Suspense>
