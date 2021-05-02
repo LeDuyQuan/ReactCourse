@@ -1,0 +1,40 @@
+1. Action
+- Là 1 object, trong đó nó sẽ quy định các type và payload
+
+export addCar = (car) => ({  // action creator
+  type: 'ADD_CAR',
+  payload: car
+})
+
+2. Connect to store
+- Chúng ta cần nên tránh việc kết nối vào trong store ở những component cấp cao như App.js
++ vì có thể App re-render sẽ kéo nhiều component con re-render theo
++ Nên chia nhiều component con và kết nối store ở trong những component con đó
++ Và trong component con đó lại chia ra container (xử lý logic) và component UI, => kết nối store trong container
+
+npm casual // package for Fake data generator
++ strict comparision: so sánh nông, chỉ so sánh tham chiếu
++ shalow comparision: so sánh từng property trong object
+
+
+3. Lưu ý khi sử dụng useSelector
+- Chúng ta nên tách các useSelector cho từng state thay vì gom lại
+- Mỗi lần redux store được cập nhật (có thể từ state khác) thì các useSelector sẽ được chạy lại
+* Tách
+const hobbyList = useSelector(state => state.hobby.list)
+const activeId = useSelector(state => state.hobby.activeId)
+// useSelector sử dụng strict comparision để so sánh state.hobby.list mới và state.hobby.list cũ -> nếu khác tham chiếu => re-render
+// trường hợp này nếu list và activeId cùng thay đổi thì redux cũng tự sắp xếp và trigger re-render đúng 1 lần mà thôi
+
+- Gom
+const hobbyState = useSelector(state => ({
+  list: state.hobby.list,
+  activeId: state.hobby.activeId
+}))
+// trường hợp này do return luôn là một object mới => trigger re-render (cho component đang chứa nó) khi redux store updated (có thể updated từ state khác)
+
+
+4. useDispatch
+const dispatch = useDispatch()
+const action = addNewCar(car)
+dispatch(action)  <=> dispatch(addNewCar(car))
