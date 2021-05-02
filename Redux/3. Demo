@@ -1,0 +1,2 @@
+1. Nên xài Formik Form thay vì Redux Form, vì state của form sẽ được lưu hết trên store.
+- Vì xài form A chỉ trong mỗi component A (qua component khác ko có nhu cầu dùng) nhưng vẫn lưu trên store
