@@ -1,0 +1,59 @@
+* Sử dụng createSlice: bao gồm cả reducer và action
+1. Setup todo Slice
+
+const todoSlice = createSlice({
+    name: 'todos',
+    initialState: [],
+    reducers: {
+        addPost(state, action) {
+            state.push(action.payload)
+        },      
+        removePost(state, action) {
+            state.splice(action.payload, 1)
+        }
+    }
+})
+
+const { actions, reducer} = todoSlice
+export const { addPost, removePost } = actions
+export default reducer;
+
+
+2. Setup redux store
+
+import { configureStore } from '@reduxjs/toolkit'
+import todoSlice from 'features/todos/todoSlice'
+
+const store = configureStore({
+    reducer: {
+        todos: todoSlice
+    }
+})
+
+
+3. Bind Redux Provider to App
+
+4. Using redux in component
+
+import { useDispatch, useSelector } from 'react-redux'
+import { removeTodo } from 'features/todos/todoSlice'
+
+function Todo() {
+    const dispatch = useDispatch()
+    const todoList = useSelector(state => state.todos)
+    
+    const handleTodoClick = (todo, idx) => {
+        const action = removeTodo(idx)
+        dispatch(action)
+    }
+    
+    return (
+        <ul>
+            {todoList.map((todo, idx) => (
+                <li key={todo.id} onClick={() => handleTodoClick(todo, idx)}>
+                    {todo.title}
+                </li>
+            ))}
+        </ul>
+    )
+}
