@@ -68,17 +68,22 @@ function Todo() {
     },
     
     
+const initialState = []
 const todosSlice = createSlice({
   name: 'todos',
-  initialState: [],
+  initialState,
   reducers: {
-    // ❌ ERROR: mutates state, but also returns new array size!
-    brokenReducer: (state, action) => state.push(action.payload),
-    // ✅ SAFE: the `void` keyword prevents a return value
-    fixedReducer1: (state, action) => void state.push(action.payload),
-    // ✅ SAFE: curly braces make this a function body and no return
-    fixedReducer2: (state, action) => {
-      state.push(action.payload)
+    brokenTodosLoadedReducer(state, action) {
+      // ❌ ERROR: does not actually mutate or return anything new!
+      state = action.payload
+    },
+    fixedTodosLoadedReducer(state, action) {
+      // ✅ CORRECT: returns a new value to replace the old one
+      return action.payload
+    },
+    correctResetTodosReducer(state, action) {
+      // ✅ CORRECT: returns a new value to replace the old one
+      return initialState
     },
   },
 })
