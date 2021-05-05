@@ -57,3 +57,28 @@ function Todo() {
         </ul>
     )
 }
+
+    // ❌ ERROR: mutates state, but also returns new array size!
+    brokenReducer: (state, action) => state.push(action.payload),
+    // ✅ SAFE: the `void` keyword prevents a return value
+    fixedReducer1: (state, action) => void state.push(action.payload),
+    // ✅ SAFE: curly braces make this a function body and no return
+    fixedReducer2: (state, action) => {
+      state.push(action.payload)
+    },
+    
+    
+const todosSlice = createSlice({
+  name: 'todos',
+  initialState: [],
+  reducers: {
+    // ❌ ERROR: mutates state, but also returns new array size!
+    brokenReducer: (state, action) => state.push(action.payload),
+    // ✅ SAFE: the `void` keyword prevents a return value
+    fixedReducer1: (state, action) => void state.push(action.payload),
+    // ✅ SAFE: curly braces make this a function body and no return
+    fixedReducer2: (state, action) => {
+      state.push(action.payload)
+    },
+  },
+})
