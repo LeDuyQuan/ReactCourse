@@ -1,3 +1,50 @@
 1. Middleware trong Redux
 - Dùng để xử lý các async action (chưa có dữ liệu fetch về mà đã dispatch rồi), cụ thể là đợi sau khi có data rồi mới dispatch
 - Là lớp nằm giữa Recucer và dispatch Action
+
+- Redux thunk
++ Chắc các bạn cũng biết là action thường trả về dạng object, người ta hay gọi là plain Javascript object. 
+Trong trường hợp mình muốn gọi một api để trả về một list trending thì action của mình không thể trả về một plain Javascript object thông thường được, 
+mà mình sẽ phải trả về một function, action như vậy được gọi là async action. Đây là code cho ví dụ của mình:
+
+export const fetchTrendingRequest = () => {
+  return (dispatch) => {
+    callAPI().then(({data})=>{
+      dispatch(fetchTrending(data.data));
+    })
+  }
+}
+
+export const fetchTrending = (trendings) => {
+  return {
+    type: Types.FETCH_TRENDING,
+    trendings
+  }
+}
+
++ Sau đó trả về một function và function này sẽ tiến hành call api để lấy về listTrending, 
+lúc này redux thunk nó sẽ cho phép chương trình dừng lại cho đến khi api gọi xong và trả về kết quả. 
+Tiếp đến mình gọi đến một action bên dưới truyền data vừa mới get được vào và lúc này redux thunk nó 
+sẽ kiểm tra action này không thực hiện async nên nó sẽ đưa đến cho reducer để xử lý.
+
+
+- Redux Saga
++ Redux saga cung cấp các hàm helper effect, các hàm này sẽ trả về một effect object chứa đựng thông tin đặc biệt chỉ dẫn middeware của Redux 
+có thể thực hiện tiếp các hành động khác. 
++ Các hàm helper effect sẽ được thực thi trong các generator function. (function * yield) 
++ Generator function là một tính năng mới trong ES6, nó cũng là một function. Tuy nhiên điểm đặc biệt của function này là có thể tạm dừng để thực thi một việc khác, 
+hoặc có thể gọi đến một Generator function khác.
+
+function* fetchEmployeeWorker() {
+  try {
+    const { getEmployeeList } = EmployeeService;
+    const response = yield call([EmployeeService, getEmployeeList]);
+    const employeeData = response.data;
+    
+    yield put(fetchEmployeeListSuccess(employeeData));
+  } catch (error) {
+    yield put(fetchEmployeeListError(error))
+  }
+}
+
+takeEvery(FETCH_EMPLOYEE_LIST_START, fetchEmployeeWorker),
