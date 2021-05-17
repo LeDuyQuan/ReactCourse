@@ -1,0 +1,60 @@
+- Generator Function là 1 function có khả năng tạm dừng và tiếp tục chạy. Có khả năng thoát và sau đó gọi lại lần nữa, giá trị các biến trong các lần gọi
+sẽ được lư lại trong các lần gọi tiếp theo. 
+
+- Từ khóa yield
++ Trả về giá trị từ generator function
++ Tạm dừng thực thi của code tiếp theo cho đến khi có kết quả
+
+function* anotherGenerator(i) {
+  yield i + 1;
+  yield i + 2;
+  yield i + 3;
+}
+
+function* generator(i) {
+  yield i;
+  yield* anotherGenerator(i);
+  yield i + 10;
+}
+
+var gen = generator(10);   // cần phải gán vào 1 biến (nếu sử dụng generator(10).next() sẽ luôn tạo iterator mới)
+
+console.log(gen.next().value); // 10
+console.log(gen.next().value); // 11
+console.log(gen.next().value); // 12
+console.log(gen.next().value); // 13
+console.log(gen.next().value); // 20
+
+- Với ví dụ trên nếu chúng ta console.log(gen) -> trả về 1 iterator object
++ Để lấy giá trị của yield chúng ta sử dụng .next(). -> sẽ trả về {done: true/false, value: ...}
++ yield luôn trả về done là false, return trả về done là true
++ yield* nhường quyền cho 1 generator khác chạy
+
+
+- Với function bình thuòng
+
+function anotherFunction(i) {
+  i += 1;
+  console.log('i2', i)
+  i += 2;
+  console.log('i3', i)
+  i += 3;
+  console.log('i4', i)
+}
+
+function nomalFunction(i) {
+  console.log('i1', i)
+  anotherFunction(i);
+  i += 10;
+  console.log('i5', i)
+}
+
+generator(10);
+
+// "i1" 10
+// "i2" 11
+// "i3" 13
+// "i4" 16
+// "i5" 20
+
+
