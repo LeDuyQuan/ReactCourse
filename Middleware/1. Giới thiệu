@@ -3,31 +3,40 @@
 - Là lớp nằm giữa Recucer và dispatch Action
 
 2. Redux thunk
-- Là function mà return lại một function khác.
-- VD: Action thường trả về dạng object (plain Javascript object). Ta muốn gọi một API để trả về một list "Trending" thì action của mình không thể 
-trả về một plain Javascript object thông thường được, mà sẽ phải trả về một async function.
+- Là function mà return lại một function khác. ( thay vì return trực tiếp kết quả thì thunk lại return ra 1 function và 
+trong function đó làm tiếp một vài nhiệm vụ nữa sau đó mới return ra kết quả cuối cùng.)
+- Khi dispatch 1 action, nếu đó là một PJO, Thunk sẽ chuyển action đó đến Reducer như thường lệ, nhưng nếu action đó trả về là một function, 
+Redux Thunk sẽ "chặn" action đó lại và đợi cho đến khi một lệnh asynchronous nào đó trong function hoàn tất và trả về kết quả.
 
-// Đây là trường hợp khi ta muốn dispatch 1 action nhưng phải chờ data từ API 
-// Sử dụng thunk function và return về 1 async function, và thực hiện dispatch ở trong async function ấy (thunk function và dispatch action viết chung với nhau)
+- VD rõ hơn: Action thường trả về dạng object (plain Javascript object). Ta muốn gọi một API để trả về một list "Trending" thì action của mình không thể 
+trả về một plain Javascript object thông thường được (tức xử lý async thì ko thể trả về object như mong đợi -> do babel biên dịch ra), nên ta sẽ phải trả về một async function. 
 
+Ex:
+------------------
 // Action
 export const fetchTrending = (trendings) => ({
   type: Types.FETCH_TRENDING,
   trendings
 })
 
-export const fetchTrendingRequest = () => {  // thunk function -> trả về 1 function và function này sẽ tiến hành call api để lấy về data
+// Đây là trường hợp khi ta muốn dispatch 1 action nhưng phải cần 1 function call data từ API 
+// Sử dụng thunk function và return về 1 async function, và thực hiện dispatch ở trong async function ấy (thunk function và dispatch action viết chung với nhau)
+// Thunk.js or Action
+export const fetchTrendingAsync = () => {  // thunk function -> trả về 1 function và function này sẽ tiến hành call api để lấy về data
   return (dispatch) => {                     // async function -> redux thunk sẽ cho phép chương trình dừng lại cho đến khi api gọi xong và trả về kết quả.
     callAPI().then(({data})=>{
-      dispatch(fetchTrending(data.data));    // dispatch action
+      dispatch(fetchTrending(data.data));    // dispatch action khác
     })
   }
 }
 => handle side effect khi đang dispatch action
 
+// JSX file
+dispatch(fetchTrendingAsync()) -> đây là dispatch thunk action
+------------------
 
 
-- Luồn chạy của Thunk: dispatch 1 thunk function => thunk chạy => thunk dispatch các action liên quan => 
+* Luồng chạy của Thunk: dispatch 1 thunk function => thunk chạy => thunk dispatch các action liên quan => 
 reducer bắt được các action liên quan => lưu state vào store
 
 - Nhược điểm:
@@ -43,7 +52,12 @@ có thể thực hiện tiếp các hành động khác.
 + Các hàm helper effect sẽ được thực thi trong các generator function. (function * yield) 
 + Generator function là một tính năng mới trong ES6, nó cũng là một function. Tuy nhiên điểm đặc biệt của function này là có thể tạm dừng (bằng yield) để thực thi một việc khác, 
 hoặc có thể gọi đến một Generator function khác.
+- Gồm 
++ Worker: là 1 hàm làm nhiệm vụ get/fetch data từ api về sau đó dispatch 1 action
++ Watcher: là 1 hàm nào đó có nhiệm vụ lắng nghe 1 action nào đó ở view và gọi 1 worker tương ứng để xử lý action đó
 
+Ex:
+------------------
 // Action
 export const fetchEmployeeListStart = () => ({
   type: FETCH_EMPLOYEE_LIST_START
@@ -53,31 +67,29 @@ export const fetchEmployeeListStart = () => ({
 dispatch(fetchEmployeeListStart()) // dispatch action
 
 // Saga
-function* fetchEmployeeWorker() {
+function* fetchEmployeeWorker() {  => Worker
   try {
     const { getEmployeeList } = EmployeeService;
     const response = yield call([EmployeeService, getEmployeeList]);
     const employeeData = response.data;
     
-    yield put(fetchEmployeeListSuccess(employeeData));
+    yield put(fetchEmployeeListSuccess(employeeData));   // dispatch các action khác
   } catch (error) {
     yield put(fetchEmployeeListError(error))
   }
 }
 
-takeEvery(FETCH_EMPLOYEE_LIST_START, fetchEmployeeWorker),
+takeEvery(FETCH_EMPLOYEE_LIST_START, fetchEmployeeWorker),    => Watcher
+------------------
 
-- Luồn chạy của Saga: dispatch 1 action => reducer bắt được action => saga bắt được action thông qua type => side effect handling =>
-saga dispatch các action liên quan => reducer bắt được các action liên quan => lưu state vào store
+* Luồn chạy của Saga: dispatch 1 action => reducer bắt được action => saga bắt được action (Watcher) =>
+saga dispatch các action liên quan (Worker) => reducer bắt được các action liên quan => lưu state vào store
 
 takeEvery() : thực thi và trả lại kết quả của mọi actions được gọi.
 takeLastest() : có nghĩa là nếu chúng ta thực hiện một loạt các actions, nó sẽ chỉ thực thi và trả lại kết quả của của actions cuối cùng.
 take() : tạm dừng cho đến khi nhận được action.
 put() : dispatch một action.
 call(): gọi function. Nếu nó return về một promise, tạm dừng saga cho đến khi promise được giải quyết.
-
-
-
 
 
 => Nếu ở Redux-Thunk thì ta sẽ dispatch trực tiếp một action trong thunk function. 
