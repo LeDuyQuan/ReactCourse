@@ -85,12 +85,62 @@ takeEvery(FETCH_EMPLOYEE_LIST_START, fetchEmployeeWorker),    => Watcher
 * Luồn chạy của Saga: dispatch 1 action => reducer bắt được action => saga bắt được action (Watcher) =>
 saga dispatch các action liên quan (Worker) => reducer bắt được các action liên quan => lưu state vào store
 
-takeEvery() : thực thi và trả lại kết quả của mọi actions được gọi.
-takeLastest() : có nghĩa là nếu chúng ta thực hiện một loạt các actions, nó sẽ chỉ thực thi và trả lại kết quả của của actions cuối cùng.
-take() : tạm dừng cho đến khi nhận được action (các dòng code phía sau take sẽ chờ).
-put() : dispatch một action.
-call(): gọi function. Nếu nó return về một promise, tạm dừng saga cho đến khi promise được giải quyết.
-
-
 => Nếu ở Redux-Thunk thì ta sẽ dispatch trực tiếp một action trong thunk function. 
 Nhưng ở Redux-Saga thì ta dispatch một action thông thường, saga sẽ lắng nghe action đó và sẽ thực hiện một side-effect.
+
+
+3.1. Các effect handling của saga 
+- Fork: dùng để rẽ nhánh, chia task và các task đó chạy song song 
++ Dùng trong worker
++ VD
+function* rootSaga() {
+  yield fork(fetchEmployeeWorker)
+  yield fork(fetchTaskWorker)
+}
++ Sử dụng: nhóm các saga như authSaga có login, logout, refreshToken
+
+- Take: tạm dừng cho đến khi nhận được action (các dòng code phía sau take sẽ chờ).
++ Dùng trong worker
++ VD
+function* fetchDataWorker() {
+  yield take(types.FETCH_DATA)
+}
+
+- Delay: tạm dừng trong khoảng timer
++ VD
+function* fetchDataWorker() {
+  yield delay(1000)
+  // other code
+}
++ Sử dụng: thuong dùng kết hợp với takeLatest để xử lý debounce
+
+- Call: gọi function. Nếu nó return về một promise, tạm dừng saga cho đến khi promise được giải quyết
++ VD
+function* fetchDataWorker() {
+  const { getEmployeeList } = EmployeeService;
+  const response = yield call([EmployeeService, getEmployeeList]);   -> supports passing a 'this' EmployeeService to getEmployeeList
+}
+
+
+- Put: dispatch một action.
+function* fetchDataWorker() {
+  yield put(fetchListTaskSuccess(data))
+}
+
+
+- takeEvery: thực thi và trả lại kết quả của mọi actions được gọi
+takeEvery(types.FETCH_EMPLOYEE_LIST_START, fetchEmployeeWorker)
+
+
+- takeLatest: nếu thực hiện 1 loạt các action, takeLatest sẽ chỉ thực thi và lấy kết quả của action cuối cùng
++ Thay thế fork và vòng lặp vô tận while (true) {}, chứa take
++ Bình thuơng ta cần phải fork sang 1 nhánh worker mới để thực hiện 1 công việc, và worker này phải luôn chạy vòng lặp vô tận (có chứa take 1 action)
+để lắng nghe 1 action
++ Tức thay vì yield fork(fetchEmployeeWorker) và trong fetchEmployeeWorker có chứa while(true) { take(types.FETCH_EMPLOYEE_LIST_START) ... }
++ Thì takeLatest đã bao lại fork và take với cú pháp takeLatest(types.FETCH_EMPLOYEE_LIST_START, fetchEmployeeWorker)
+
+
+- Select: lấy state từ redux store
++ yield select(state => state.task.listTask)
+
+
