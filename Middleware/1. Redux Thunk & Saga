@@ -99,12 +99,14 @@ function* rootSaga() {
 }
 + Sử dụng: nhóm các saga như authSaga có login, logout, refreshToken
 
+
 - Take: tạm dừng cho đến khi nhận được action (các dòng code phía sau take sẽ chờ).
 + Dùng trong worker
 + VD
 function* fetchDataWorker() {
   yield take(types.FETCH_DATA)
 }
+
 
 - Delay: tạm dừng trong khoảng timer
 + VD
@@ -113,6 +115,7 @@ function* fetchDataWorker() {
   // other code
 }
 + Sử dụng: thuong dùng kết hợp với takeLatest để xử lý debounce
+
 
 - Call: gọi function. Nếu nó return về một promise, tạm dừng saga cho đến khi promise được giải quyết
 + VD
